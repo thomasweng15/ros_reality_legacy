@@ -39,3 +39,7 @@ lfd: Branch for performing learning from demonstrations in VR. Pull the associat
 multiplayer: Allows for multiple humans to be in the VR scene. 
 
 Nao: ROS Reality for the Nao.
+
+## Running ROS Reality Legacy for the Sawyer
+
+* Install VS2015 and VS2015 Tools for Unity. More recent versions of VS should work but I only tested on the 2015 version.
