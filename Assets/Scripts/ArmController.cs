@@ -31,6 +31,7 @@ public class ArmController : MonoBehaviour {
         else if (arm == "right") {
             grip_label = "Right Grip";
             trigger_label = "Right Trigger";
+            Debug.Log("right grip");
         }
         else
             Debug.LogError("arm variable is not set correctly");
@@ -48,6 +49,7 @@ public class ArmController : MonoBehaviour {
         //Allows movement control with controllers if menu is disabled
 
         //if deadman switch held in, move to new pose
+        Debug.Log(Input.GetAxis(grip_label));
         if (Input.GetAxis(grip_label) > 0.5f) {
             //construct message to move to new pose for the robot end effector 
             message = outPos.x + " " + outPos.y + " " + outPos.z + " " +

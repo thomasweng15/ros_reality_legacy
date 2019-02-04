@@ -10,7 +10,7 @@ public class URDFParser : MonoBehaviour {
     Dictionary<string, GameObject> robotParts;
 
     public string xmlPath;
-    string relativePath = "URDFs/Baxter/";
+    string relativePath = "URDFs/Sawyer/";
 
     public GameObject root;
 

@@ -40,6 +40,21 @@ multiplayer: Allows for multiple humans to be in the VR scene.
 
 Nao: ROS Reality for the Nao.
 
-## Running ROS Reality Legacy for the Sawyer
+## Installing ROS Reality Legacy for the Sawyer
 
 * Install VS2015 and VS2015 Tools for Unity. More recent versions of VS should work but I only tested on the 2015 version.
+* Install ros_reality_bridge on the robot computer.
+* Install ros_reality_legacy on the Windows computer.
+
+## Running ROS Reality Legacy for the Sawyer
+
+### On the robot computer
+
+1. Source the robot: `cd ~/catkin_ws && source thing2.sh`
+2. Source the catkin workspace containing ros_reality_bridge: `source ~/teleop_ws/devel/setup.bash`
+3. Run `roslaunch ros_reality_bridge ros_reality_sawyer.launch`
+
+### On the Windows computer
+1. Turn on the Vive headset.
+2. Navigate to `ros_reality_legacy/Assets/Scenes` and start the PositionControl Unity scene. 
+3. Click the play button to run the scene.
