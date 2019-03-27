@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 67b86716b83e84cde86f264e47af8376
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: 99-00000288-00
     100002: 99-00000288-00-1
@@ -162,6 +162,73 @@ ModelImporter:
     2100040: Material_21
     2100042: Material_22
     2100044: Material_23
+    2100046: 99-00000288-00Mat
+    2100048: 99-00000288-00-1Mat
+    2100050: 99-00000288-00-2Mat
+    2100052: 99-00000288-00-3Mat
+    2100054: 99-00000289-00Mat
+    2100056: 99-00000289-00-1Mat
+    2100058: 99-00000289-00-2Mat
+    2100060: 99-00000289-00-3Mat
+    2100062: 99-00000289-00-4Mat
+    2100064: 99-00000289-00-5Mat
+    2100066: 99-00000289-00-6Mat
+    2100068: 99-00000289-00-7Mat
+    2100070: 99-00000289-00-8Mat
+    2100072: 99-00000289-00-9Mat
+    2100074: 99-00000291-00Mat
+    2100076: 99-00000291-00-1Mat
+    2100078: 99-00000291-00-2Mat
+    2100080: 99-00000291-00-3Mat
+    2100082: 99-00000291-00-4Mat
+    2100084: 99-00000291-00-5Mat
+    2100086: 99-00000292-00Mat
+    2100088: 99-00000292-00-1Mat
+    2100090: 99-00000292-00-2Mat
+    2100092: 99-00000292-00-3Mat
+    2100094: 99-00000292-00-4Mat
+    2100096: 99-00000292-00-5Mat
+    2100098: 99-00000293-00Mat
+    2100100: 99-00000293-00-1Mat
+    2100102: 99-00000293-00-2Mat
+    2100104: 99-00000293-00-3Mat
+    2100106: 99-00000293-00-4Mat
+    2100108: 99-00000293-00-5Mat
+    2100110: 99-00000293-00-6Mat
+    2100112: 99-00000293-00-7Mat
+    2100114: 99-00000293-00-8Mat
+    2100116: 99-00000293-00-9Mat
+    2100118: 99-00000294-00Mat
+    2100120: 99-00000294-00-1Mat
+    2100122: 99-00000294-00-2Mat
+    2100124: 99-00000294-00-3Mat
+    2100126: 99-00000294-00-4Mat
+    2100128: 99-00000294-00-5Mat
+    2100130: 99-00000294-00-6Mat
+    2100132: 99-00000295-00Mat
+    2100134: 99-00000295-00-1Mat
+    2100136: 99-00000295-00-2Mat
+    2100138: 99-00000295-00-3Mat
+    2100140: 99-00000295-00-4Mat
+    2100142: 99-00000296-00Mat
+    2100144: 99-00000296-00-1Mat
+    2100146: 99-00000296-00-2Mat
+    2100148: 99-00000296-00-3Mat
+    2100150: 99-00000296-00-4Mat
+    2100152: 99-00000296-00-5Mat
+    2100154: 99-00000297-00Mat
+    2100156: 99-00000297-00-1Mat
+    2100158: 99-00000297-00-10Mat
+    2100160: 99-00000297-00-2Mat
+    2100162: 99-00000297-00-3Mat
+    2100164: 99-00000297-00-4Mat
+    2100166: 99-00000297-00-5Mat
+    2100168: 99-00000297-00-6Mat
+    2100170: 99-00000297-00-7Mat
+    2100172: 99-00000297-00-8Mat
+    2100174: 99-00000297-00-9Mat
+    2100176: 99-00000384-00_solidMat
+    2100178: 99-00000384-00_solid-1Mat
     2300000: 99-00000288-00
     2300002: 99-00000288-00-1
     2300004: 99-00000288-00-2
@@ -382,6 +449,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -396,6 +464,7 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -413,11 +482,16 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -432,7 +506,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1

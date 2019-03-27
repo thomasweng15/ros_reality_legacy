@@ -49,7 +49,6 @@ public class ArmController : MonoBehaviour {
         //Allows movement control with controllers if menu is disabled
 
         //if deadman switch held in, move to new pose
-        Debug.Log(Input.GetAxis(grip_label));
         if (Input.GetAxis(grip_label) > 0.5f) {
             //construct message to move to new pose for the robot end effector 
             message = outPos.x + " " + outPos.y + " " + outPos.z + " " +
@@ -58,6 +57,7 @@ public class ArmController : MonoBehaviour {
         }
 
         //If trigger pressed, open the gripper. Else, close gripper
+        Debug.Log(Input.GetAxis(trigger_label));
         if (Input.GetAxis(trigger_label) > 0.5f) {
             message += " openGripper ";
         }
