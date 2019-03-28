@@ -1,77 +1,25 @@
 fileFormatVersion: 2
-guid: 6104dabfed83c414081df51a568a671d
+guid: 4badcbaf5073a6e49a9a4e89ee778092
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: _3DGeom_694
-    100002: _3DGeom_695
-    100004: _3DGeom_696
-    100006: _3DGeom_697
-    100008: _3DGeom_698
-    100010: _3DGeom_699
-    100012: _3DGeom_700
-    100014: _3DGeom_701
-    100016: Body_1
-    100018: //RootNode
-    400000: _3DGeom_694
-    400002: _3DGeom_695
-    400004: _3DGeom_696
-    400006: _3DGeom_697
-    400008: _3DGeom_698
-    400010: _3DGeom_699
-    400012: _3DGeom_700
-    400014: _3DGeom_701
-    400016: Body_1
-    400018: //RootNode
-    2100000: Mtl1
-    2100002: Mtl2
-    2100004: Mtl3
-    2100006: Mtl4
-    2100008: Mtl5
-    2100010: Mtl6
-    2100012: Mtl7
-    2100014: Mtl8
-    2300000: _3DGeom_694
-    2300002: _3DGeom_695
-    2300004: _3DGeom_696
-    2300006: _3DGeom_697
-    2300008: _3DGeom_698
-    2300010: _3DGeom_699
-    2300012: _3DGeom_700
-    2300014: _3DGeom_701
-    3300000: _3DGeom_694
-    3300002: _3DGeom_695
-    3300004: _3DGeom_696
-    3300006: _3DGeom_697
-    3300008: _3DGeom_698
-    3300010: _3DGeom_699
-    3300012: _3DGeom_700
-    3300014: _3DGeom_701
-    4300000: _3DGeom_694
-    4300002: _3DGeom_695
-    4300004: _3DGeom_696
-    4300006: _3DGeom_697
-    4300008: _3DGeom_698
-    4300010: _3DGeom_699
-    4300012: _3DGeom_700
-    4300014: _3DGeom_701
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: _0030535
     9500000: //RootNode
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Mtl1
-    second: {fileID: 2100000, guid: 88b1c05c84febee4ea09287a7ef30505, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Mtl5
-    second: {fileID: 2100000, guid: 210e7b5781d18a746b7765a3c05fa215, type: 2}
+      name: Material_001
+    second: {fileID: 2100000, guid: 07ca1275567b14344ae33b021c7dc786, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -99,10 +47,10 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
-    importVisibility: 1
+    importVisibility: 0
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
@@ -110,7 +58,7 @@ ModelImporter:
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
-    indexFormat: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -120,7 +68,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
-    normalCalculationMode: 4
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -138,7 +86,7 @@ ModelImporter:
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
-    skeletonHasParents: 1
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
   humanoidOversampling: 1
