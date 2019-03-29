@@ -57,7 +57,6 @@ public class ArmController : MonoBehaviour {
         }
 
         //If trigger pressed, open the gripper. Else, close gripper
-        Debug.Log(Input.GetAxis(trigger_label));
         if (Input.GetAxis(trigger_label) > 0.5f) {
             message += " openGripper ";
         }

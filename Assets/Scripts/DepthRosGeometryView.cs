@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class DepthRosGeometryView : MonoBehaviour {
@@ -16,8 +17,10 @@ public class DepthRosGeometryView : MonoBehaviour {
     Texture2D depthTexture;
     Texture2D colorTexture;
 
-    int width = 512;
-    int height = 424;
+    // int width = 512;
+    int width = 640;
+    // int height = 424;
+    int height = 480;
 
     Matrix4x4 m;
 
@@ -27,10 +30,11 @@ public class DepthRosGeometryView : MonoBehaviour {
         depthTexture = new Texture2D(width, height, TextureFormat.R16, false);
         colorTexture = new Texture2D(2, 2);
 
-
         wsc = GameObject.Find("WebsocketClient").GetComponent<WebsocketClient>();
-        depthTopic = "kinect2/sd/image_depth_rect_throttle";
-        colorTopic = "kinect2/sd/image_color_rect/compressed_throttle";
+        depthTopic = "camera/depth/image_rect_raw";
+        colorTopic = "camera/color/image_raw/compressed";
+        // depthTopic = "kinect2/sd/image_depth_rect_throttle";
+        // colorTopic = "kinect2/sd/image_color_rect/compressed_throttle";
         wsc.Subscribe(depthTopic, "sensor_msgs/Image", compression, framerate);
         wsc.Subscribe(colorTopic, "sensor_msgs/CompressedImage", compression, framerate);
         InvokeRepeating("UpdateTexture", 0.1f, 0.1f);
@@ -43,10 +47,7 @@ public class DepthRosGeometryView : MonoBehaviour {
             byte[] depthImage = System.Convert.FromBase64String(depthMessage);
 
             depthTexture.LoadRawTextureData(depthImage);
-            //depthTexture.LoadImage(depthImage);
             depthTexture.Apply();
-            //Debug.Log(depthTexture.GetType());
-
         }
         catch (Exception e) {
             Debug.Log(e.ToString());
@@ -73,6 +74,6 @@ public class DepthRosGeometryView : MonoBehaviour {
         m = Matrix4x4.TRS(this.transform.position, this.transform.rotation, this.transform.localScale);
         Material.SetMatrix("transformationMatrix", m);
 
-        Graphics.DrawProcedural(MeshTopology.Points, 512 * 424, 1);
+        Graphics.DrawProcedural(MeshTopology.Points, width * height, 1);
     }
 }

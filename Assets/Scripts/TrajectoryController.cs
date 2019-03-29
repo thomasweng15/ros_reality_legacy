@@ -91,8 +91,6 @@ public class TrajectoryController : MonoBehaviour {
 
             message = outPos.x + " " + outPos.y + " " + outPos.z + " " + outQuat.x + " " + outQuat.y + " " + outQuat.z + " " + outQuat.w + " moveToEEPose";
         }
-        Debug.Log("trigger name" + trigger_label);
-        Debug.Log("trigger value" + Input.GetAxis(trigger_label));
         if (Input.GetAxis(trigger_label) > 0.5f) {
             message += " openGripper ";
         }
