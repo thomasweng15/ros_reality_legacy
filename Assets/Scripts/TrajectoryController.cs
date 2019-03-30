@@ -33,7 +33,7 @@ public class TrajectoryController : MonoBehaviour {
         //last positions/rotation of the controller (calculate relative displacement of controller at each update)
         lastControllerPosition = tf.position;
         lastControllerRotation = tf.rotation;
-        Invoke("FindArm", 1f); //update position of lastArm position and rotation
+        Invoke("FindArm", .1f); //update position of lastArm position and rotation
         InvokeRepeating("sendMessage", 1.2f, .1f); //send message to move arm by displacement of current controller position/rotation with previous position/rotation
         targetTransform = targetModel.GetComponent<Transform>();
 
