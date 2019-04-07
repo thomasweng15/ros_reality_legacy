@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/TrajectoryControl.unity
+- path: Assets/Scenes/TtrajectoryBAKING.unity
   isLoaded: 1
   isActive: 1

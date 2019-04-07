@@ -38,7 +38,17 @@ ModelImporter:
     4300006: _3DGeom_157
     4300008: _3DGeom_158
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mtl1_001
+    second: {fileID: 2100000, guid: f3f55ee930da8f14daaaa3f9a9529d51, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mtl3_001
+    second: {fileID: 2100000, guid: 210e7b5781d18a746b7765a3c05fa215, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

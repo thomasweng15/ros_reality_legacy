@@ -14,14 +14,14 @@ public class WebsocketClient : MonoBehaviour {
 
     // Connect happens in Awake so it is finished before other GameObjects are made
     void Awake() { 
-        Debug.Log("instantiating websocket");
+        //Debug.Log("instantiating websocket");
         ws = new WebSocket(ip_address);
 
         ws.OnOpen += OnOpenHandler;
         ws.OnMessage += OnMessageHandler;
         ws.OnClose += OnCloseHandler;
 
-        Debug.Log("Connecting to websocket");
+        //Debug.Log("Connecting to websocket");
         ws.ConnectAsync();
     }
 
@@ -31,27 +31,27 @@ public class WebsocketClient : MonoBehaviour {
 
     public void Subscribe(string topic, string type, string compression, int throttle_rate) {
         string msg = "{\"op\":\"subscribe\",\"id\":\"subscribe:/" + topic + ":" + counter + "\",\"type\":\"" + type + "\",\"topic\":\"/" + topic + "\",\"compression\":\"" + compression + "\",\"throttle_rate\":" + throttle_rate.ToString() + ",\"queue_length\":0}";
-        Debug.Log(msg);
+        //Debug.Log(msg);
         ws.SendAsync(msg, OnSendComplete);
         counter++;
     }
 
     public void Subscribe(string topic, string type, int throttle_rate) {
         string msg = "{\"op\":\"subscribe\",\"id\":\"subscribe:/" + topic + ":" + counter + "\",\"type\":\"" + type + "\",\"topic\":\"/" + topic + "\",\"throttle_rate\":" + throttle_rate.ToString() + ",\"queue_length\":0}";
-        Debug.Log(msg);
+        //Debug.Log(msg);
         ws.Send(msg);
         counter++;
     }
 
     public void Unsubscribe(string topic) {
         string msg = "{\"op\":\"unsubscribe\",\"id\":\"unsubscribe:/" + topic + ":" + counter + "\",\"topic\":\"" + topic + "\"}";
-        Debug.Log(msg);
+        //Debug.Log(msg);
         ws.SendAsync(msg, OnSendComplete);
     }
 
     public void Advertise(string topic, string type) {
         string msg = "{\"op\":\"advertise\",\"id\":\"advertise:/" + topic + ":" + counter + "\",\"type\":\"" + type + "\",\"topic\":\"/" + topic + "\",\"latch\":false,\"queue_size\":0}";
-        Debug.Log(msg);
+        //Debug.Log(msg);
         ws.SendAsync(msg, OnSendComplete);
         counter++;
 
@@ -64,7 +64,7 @@ public class WebsocketClient : MonoBehaviour {
     }
 
     public void SendEinMessage(string message, string arm) {
-        Debug.Log(message);
+       // Debug.Log(message);
         Publish("ein/" + arm + "/forth_commands", message);
     }
 
@@ -79,12 +79,12 @@ public class WebsocketClient : MonoBehaviour {
     }
 
     private void OnOpenHandler(object sender, System.EventArgs e) {
-        Debug.Log("WebSocket connected!");
+        //Debug.Log("WebSocket connected!");
         connected = true;
     }
 
     private void OnCloseHandler(object sender, CloseEventArgs e) {
-        Debug.Log("WebSocket closed");
+        //Debug.Log("WebSocket closed");
     }
 
     private void OnSendComplete(bool success) {
