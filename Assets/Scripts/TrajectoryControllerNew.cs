@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-
+//this is our modification of the original tragectory controller, b ut with the end effector snapping directyly to the controller on squeezing siude grips
 public class TrajectoryControllerNew : MonoBehaviour {
 
     public string arm;

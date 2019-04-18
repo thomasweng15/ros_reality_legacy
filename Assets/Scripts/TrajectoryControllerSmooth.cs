@@ -22,7 +22,7 @@ public class TrajectoryControllerSmooth : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-
+        
         GameObject wso = GameObject.FindWithTag("WebsocketTag");
         wsc = wso.GetComponent<WebsocketClient>();
 
@@ -36,7 +36,7 @@ public class TrajectoryControllerSmooth : MonoBehaviour {
         Invoke("FindArm", .1f); //update position of lastArm position and rotation
         InvokeRepeating("sendMessage", 1.2f, .1f); //send message to move arm by displacement of current controller position/rotation with previous position/rotation
         targetTransform = targetModel.GetComponent<Transform>();
-
+        
         if (arm == "left") {
             grip_label = "Left Grip";
             trigger_label = "Left Trigger";
@@ -61,6 +61,7 @@ public class TrajectoryControllerSmooth : MonoBehaviour {
     }
 
     void Update() {
+        //targetTransform.position = tf.position;
         scale = TFListener.scale;
 
         Vector3 deltaPos = tf.position - lastControllerPosition; //displacement of current controller position to old controller position
@@ -69,19 +70,24 @@ public class TrajectoryControllerSmooth : MonoBehaviour {
         Quaternion deltaRot = tf.rotation * Quaternion.Inverse(lastControllerRotation); //delta of current controller rotation to old controller rotation
         lastControllerRotation = tf.rotation;
         
-        Debug.Log("this is our deltaRot: "+ deltaRot);
-        
-        float theta = 2*Mathf.Acos(deltaRot[3]);
+        //float theta = 2*Mathf.Acos(deltaRot[3]);
+        float magnitude = Mathf.Sqrt(Mathf.Pow(deltaRot[0],2) + Mathf.Pow(deltaRot[1],2) + Mathf.Pow(deltaRot[2],2));
+        float theta = 2*Mathf.Atan2(magnitude, deltaRot[3]);
+
         float thetaPrime = theta/2f;
         float wPrime = Mathf.Cos(thetaPrime/2);
 
         float unitRadius =  Mathf.Sqrt(Mathf.Pow(deltaRot[0],2) + Mathf.Pow(deltaRot[1],2) + Mathf.Pow(deltaRot[2],2));
-        if (unitRadius != 0){
-            Debug.Log("meowMix");
+        if (thetaPrime > 0.0001 && thetaPrime < 2) {
             deltaRot[0] = deltaRot[0]/unitRadius *  Mathf.Sin(thetaPrime/2);
             deltaRot[1] = deltaRot[1]/unitRadius *  Mathf.Sin(thetaPrime/2);
             deltaRot[2] = deltaRot[2]/unitRadius *  Mathf.Sin(thetaPrime/2);
             deltaRot[3] = wPrime;
+        } else {
+            deltaRot[0] = 0;
+            deltaRot[1] = 0;
+            deltaRot[2] = 0;
+            deltaRot[3] = 1;
         }
 
         //message to be sent over ROs network
@@ -90,6 +96,8 @@ public class TrajectoryControllerSmooth : MonoBehaviour {
 
         //Allows movement control with controllers if menu is disabled
         if (Input.GetAxis(grip_label) > 0.5f) { //deadman switch being pressed
+           
+            
             lastArmPosition = lastArmPosition + deltaPos/2; //new arm position
             //take w rcos
             lastArmRotation = deltaRot * lastArmRotation; //new arm rotation
