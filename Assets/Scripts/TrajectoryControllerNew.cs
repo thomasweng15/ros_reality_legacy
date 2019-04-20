@@ -37,10 +37,10 @@ public class TrajectoryControllerNew : MonoBehaviour {
         InvokeRepeating("sendMessage", 1.2f, .1f); //send message to move arm by displacement of current controller position/rotation with previous position/rotation
         targetTransform = targetModel.GetComponent<Transform>();
 
-        if (arm == "left") {
-            grip_label = "Left Grip";
-            trigger_label = "Left Trigger";
-        }
+        // if (arm == "left") {
+        //     grip_label = "Left Grip";
+        //     trigger_label = "Left Trigger";
+        // }
         if (arm == "right") {
             grip_label = "Right Grip";
             trigger_label = "Right Trigger";
