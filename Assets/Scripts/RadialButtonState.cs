@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RadialButtonState : MonoBehaviour {
 
 	// Use this for initialization
-	public bool selectedState = false;
+	internal bool selectedState = false;
 	void Start () {
 		
 	}
@@ -14,4 +15,9 @@ public class RadialButtonState : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    internal void toggleSelectedState(bool newSetting)
+    {
+        selectedState = newSetting;
+    }
 }

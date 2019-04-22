@@ -49,39 +49,39 @@ public class NondominantControls : MonoBehaviour {
 			print("optionSelected: " + optionSelected);
 			//button highlighting by chan ging hte albedo
 			
-			// print("selectedState: " + buttonArr[optionSelected].GetComponent<RadialButtonState>().selectedState);
-			// //bool selectedState = buttonArr[optionSelected].GetComponent<ButtonBehavior>().selectedState;
-			// for(int i= 0; i < buttonArr.Length; i ++){
-			// 	bool selectedState = buttonArr[i].GetComponent<RadialButtonState>().selectedState;
-			// 	print("the button's selectedState is "+ selectedState);
-			// 	if (i == optionSelected){
-			// 		if(!selectedState){
-			// 			buttonArr[optionSelected].GetComponent<Transform>().localScale *=1.01f;
-			// 		}
-			// 		buttonArr[optionSelected].GetComponent<RadialButtonState>().selectedState = true;
-			// 	}else{
-			// 		if(selectedState){
-			// 			buttonArr[optionSelected].GetComponent<Transform>().localScale /= 1.01f;
-			// 		}
-			// 		buttonArr[optionSelected].GetComponent<RadialButtonState>().selectedState = false;
-			// 	}
-			// }
-			// switch (optionSelected){
-			// 	case 0:
-			// 		break;
-			// 	case 1:
-			// 	//redo
-			// 		break;
-			// 	case 2:
-			// 	//undo
-			// 		break;
-			// 	case 3:
-			// 	//reset
-			// 		break;
+			print("selectedState: " + buttonArr[optionSelected].GetComponent<RadialButtonState>().selectedState);
+			//bool selectedState = buttonArr[optionSelected].GetComponent<ButtonBehavior>().selectedState;
+			for(int i= 0; i < buttonArr.Length; i ++){
+				bool selectedState = buttonArr[i].GetComponent<RadialButtonState>().selectedState;
+				print("the button's selectedState is "+ selectedState);
+				if (i == optionSelected){
+					if(!selectedState){
+						buttonArr[optionSelected].GetComponent<Transform>().localScale  = new Vector3(1.5f, 1.5f, 1.5f);
+					}
+					buttonArr[optionSelected].GetComponent<RadialButtonState>().toggleSelectedState(true);
+				}else{
+					if(selectedState){
+						buttonArr[optionSelected].GetComponent<Transform>().localScale = new Vector3(1f, 1f, 1f);
+					}
+					buttonArr[optionSelected].GetComponent<RadialButtonState>().toggleSelectedState(false);
+				}
+			}
+			switch (optionSelected){
+				case 0:
+					break;
+				case 1:
+				//redo
+					break;
+				case 2:
+				//undo
+					break;
+				case 3:
+				//reset
+					break;
 
-			// 	default:
-			// 		break;
-			// }
+				default:
+					break;
+			}
 		}
 	}
 
