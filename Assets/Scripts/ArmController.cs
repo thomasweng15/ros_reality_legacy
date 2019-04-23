@@ -12,7 +12,11 @@ public class ArmController : MonoBehaviour {
     //scale represents how resized the virtual robot is
     float scale;
 
+    //the end effector that holds the array of ghost transforms
+    private GameObject electricFingers;
+
     void Start() {
+        electricFingers = GameObject.FindWithTag("EndEffector");
         // Get the live websocket client
         wsc = GameObject.Find("WebsocketClient").GetComponent<WebsocketClient>();
 
@@ -67,7 +71,36 @@ public class ArmController : MonoBehaviour {
         //Send the message to the websocket client (i.e: publish message onto ROS network)
         wsc.SendEinMessage(message, arm);
     }
+    void SendAGhost() {
+        scale = TFListener.scale;
 
+        //Convert the Unity position of the hand controller to a ROS position (scaled)
+        Vector3 outPos = UnityToRosPositionAxisConversion(GetComponent<Transform>().position) / scale;
+        //Convert the Unity rotation of the hand controller to a ROS rotation (scaled, quaternions)
+        Quaternion outQuat = UnityToRosRotationAxisConversion(GetComponent<Transform>().rotation);
+        //construct the Ein message to be published
+        string message = "";
+        //Allows movement control with controllers if menu is disabled
+
+        //if deadman switch held in, move to new pose
+        if (Input.GetAxis(grip_label) > 0.5f) {
+            //construct message to move to new pose for the robot end effector 
+            message = outPos.x + " " + outPos.y + " " + outPos.z + " " +
+            outQuat.x + " " + outQuat.y + " " + outQuat.z + " " + outQuat.w + " moveToEEPose";
+            //if touchpad is pressed (Crane game), incrementally move in new direction
+        }
+
+        //If trigger pressed, open the gripper. Else, close gripper
+        if (Input.GetAxis(trigger_label) > 0.5f) {
+            message += " openGripper ";
+        }
+        else {
+            message += " closeGripper ";
+        }
+
+        //Send the message to the websocket client (i.e: publish message onto ROS network)
+        wsc.SendEinMessage(message, arm);
+    }
     //Convert 3D Unity position to ROS position 
     Vector3 UnityToRosPositionAxisConversion(Vector3 rosIn) {
         return new Vector3(-rosIn.x, -rosIn.z, rosIn.y);

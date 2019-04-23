@@ -7,6 +7,8 @@ public class copyItself : MonoBehaviour {
 
 	// Use this for initialization
 	public Transform prefab;
+
+	public List<Transform> ghostArray = new List<Transform>();
     void Start()
     {
 
@@ -30,6 +32,7 @@ public class copyItself : MonoBehaviour {
 	}
 	internal void drawGhost(){
         Instantiate(prefab, this.transform.position, this.transform.rotation);
-		
+		Transform currentTransform = GetComponent<Transform>();
+		ghostArray.Add(currentTransform);
 	}
 }

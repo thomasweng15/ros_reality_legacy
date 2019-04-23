@@ -27,20 +27,20 @@ public class NondominantControls : MonoBehaviour {
 			buttonArr[optionSelected].transform.GetChild(2).gameObject.GetComponent<Renderer>().material.SetColor("_Color", new Color(100f / 255, 220f / 255, 140f / 255));
 			switch (optionSelected){
 				case 0:
-				print("button pressed " + 0);
+					print("button pressed " + 0);
 
 					break;
 				case 1:
-				print("button pressed " + 1);
-				//redo
+					print("button pressed " + 1);
+					//redo
 					break;
 				case 2:
-				print("button pressed " + 2);
-				//undo
+					print("button pressed " + 2);
+					//undo
 					break;
 				case 3:
-				print("button pressed " + 3);
-				//reset
+					print("button pressed " + 3);
+					//reset
 					break;
 				default:
 					break;
