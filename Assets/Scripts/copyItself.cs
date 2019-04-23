@@ -14,16 +14,22 @@ public class copyItself : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetAxis("Right Trigger") > 0)
-        {
-            Instantiate(prefab, this.transform.position, this.transform.rotation);
-			Debug.Log("yo yoy oyoyoyyyoyoyoooooo");
-			Debug.Log(Input.GetJoystickNames());
-			for (int i = 0; i < Input.GetJoystickNames().Length; i ++){
-				string whatwhat = Input.GetJoystickNames()[i];
-				Debug.Log(whatwhat);
-			}
-        }
+
+	//this is the old code that left ghost imprints on the trigger
+		// if (Input.GetAxis("Right Trigger") > 0)
+        // {
+        //     Instantiate(prefab, this.transform.position, this.transform.rotation);
+		// 	Debug.Log("yo yoy oyoyoyyyoyoyoooooo");
+		// 	Debug.Log(Input.GetJoystickNames());
+		// 	for (int i = 0; i < Input.GetJoystickNames().Length; i ++){
+		// 		string whatwhat = Input.GetJoystickNames()[i];
+		// 		Debug.Log(whatwhat);
+		// 	}
+        // }
         
+	}
+	internal void drawGhost(){
+        Instantiate(prefab, this.transform.position, this.transform.rotation);
+		
 	}
 }
