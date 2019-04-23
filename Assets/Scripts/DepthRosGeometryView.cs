@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class DepthRosGeometryView : MonoBehaviour {
 
@@ -17,9 +18,7 @@ public class DepthRosGeometryView : MonoBehaviour {
     Texture2D depthTexture;
     Texture2D colorTexture;
 
-    // int width = 512;
     int width = 640;
-    // int height = 424;
     int height = 480;
 
     Matrix4x4 m;
@@ -31,10 +30,8 @@ public class DepthRosGeometryView : MonoBehaviour {
         colorTexture = new Texture2D(2, 2);
 
         wsc = GameObject.Find("WebsocketClient").GetComponent<WebsocketClient>();
-        depthTopic = "camera/depth/image_rect_raw";
-        colorTopic = "camera/color/image_raw/compressed";
-        // depthTopic = "kinect2/sd/image_depth_rect_throttle";
-        // colorTopic = "kinect2/sd/image_color_rect/compressed_throttle";
+        depthTopic = "camera/depth_registered/sw_registered/image_rect_raw";
+        colorTopic = "camera/rgb/image_raw/compressed";
         wsc.Subscribe(depthTopic, "sensor_msgs/Image", compression, framerate);
         wsc.Subscribe(colorTopic, "sensor_msgs/CompressedImage", compression, framerate);
         InvokeRepeating("UpdateTexture", 0.1f, 0.1f);
@@ -56,6 +53,15 @@ public class DepthRosGeometryView : MonoBehaviour {
         try {
             colorMessage = wsc.messages[colorTopic];
             byte[] colorImage = System.Convert.FromBase64String(colorMessage);
+            var i = 0;
+            for (i=0; i< colorImage.Length; i++) {
+                if (colorImage[i] != 255) {
+                    break;
+                }
+            }
+            Debug.Log("hello " + colorImage.Length);
+            byte[] colorImageCut = colorImage.Reverse().Take(colorImage.Length-216).Reverse().ToArray();
+            Debug.Log("cut " + colorImageCut.Length);
             colorTexture.LoadImage(colorImage);
             colorTexture.Apply();
         }
