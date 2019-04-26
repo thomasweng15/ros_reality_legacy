@@ -36,7 +36,7 @@ Shader "Custom/DepthGeometryPointSprites"
 					POSCOLOR_INPUT output;							
 				
 				    int3 textureCoordinates = int3(primID % DepthWidth, primID / DepthWidth, 0);				
-					int3 colorCoordinates = int3(textureCoordinates.x, DepthHeight - textureCoordinates.y, 0);					
+					int3 colorCoordinates = int3(textureCoordinates.x, textureCoordinates.y, 0);					
 					//float depth = DepthFromPacked4444(_MainTex.Load(textureCoordinates));
 					//float raw_depth = _MainTex.Load(textureCoordinates);
 					// don't output quads for pixels with invalid depth data
