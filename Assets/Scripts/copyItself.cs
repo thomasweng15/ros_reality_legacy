@@ -10,79 +10,105 @@ public class copyItself : MonoBehaviour {
     public string arm;
     private string grip_label;
     private string trigger_label;
-	 TFListener TFListener;
-    //scale represents how resized the virtual robot is
+    public GameObject targetModel;
+    Transform tf;
+	TFListener TFListener;
     float scale;
-	public Transform prefab;
+    Vector3 lastControllerPosition;
+    Vector3 lastArmPosition;
+    Quaternion lastControllerRotation;
+    Quaternion lastArmRotation;
+    Transform lastArmTF;
+    Transform targetTransform;
+    string message;
 	public List<String> ghostCommands = new List<String>();
     
 	void Start()
     {
-		if (arm == "left") {
-            grip_label = "Left Grip";
-            trigger_label = "Left Trigger";
-        }
-        else if (arm == "right") {
+		TFListener = GameObject.Find("TFListener").GetComponent<TFListener>();
+        tf = GetComponent<Transform>();
+		targetModel = GameObject.FindWithTag("RightTargetModel");
+
+        //last positions/rotation of the controller (calculate relative displacement of controller at each update)
+        lastControllerPosition = tf.position;
+        lastControllerRotation = tf.rotation;
+
+		Invoke("FindArm", .1f); //update position of lastArm position and rotation
+		targetTransform = targetModel.GetComponent<Transform>();
+
+		if (arm == "right") {
             grip_label = "Right Grip";
             trigger_label = "Right Trigger";
-            Debug.Log("right grip");
         }
         else
             Debug.LogError("arm variable is not set correctly");
     }
 	
-	// Update is called once per frame
-	void Update () {
-        
-	}
 	internal void drawGhost(){
-        Instantiate(prefab, this.transform.position, this.transform.rotation);
-		Transform currentTransform = GetComponent<Transform>();
-		addCommand(currentTransform);
+        Instantiate(tf, this.transform.position, this.transform.rotation);
+		// Transform currentTransform = GetComponent<Transform>();
+		addCommand(tf);
 	}
+
+	void FindArm() { //update the lastArm with the current position/rotation of the controller
+        lastArmTF = GameObject.Find(arm + "_gripper_base").GetComponent<Transform>();
+        lastArmPosition = lastArmTF.position;
+        lastArmRotation = lastArmTF.rotation;
+        //Debug.Log(lastArmPosition);
+    }
 
 	private void addCommand(Transform ghost){
-		 scale = TFListener.scale;
+		scale = TFListener.scale;
 
-        //Convert the Unity position of the hand controller to a ROS position (scaled)
-        Vector3 outPos = UnityToRosPositionAxisConversion(GetComponent<Transform>().position) / scale;
-        //Convert the Unity rotation of the hand controller to a ROS rotation (scaled, quaternions)
-        Quaternion outQuat = UnityToRosRotationAxisConversion(GetComponent<Transform>().rotation);
-        //construct the Ein message to be published
-        string message = "";
+        Vector3 deltaPos = tf.position - lastControllerPosition; //displacement of current controller position to old controller position
+        lastControllerPosition = tf.position;
+
+        Quaternion deltaRot = tf.rotation * Quaternion.Inverse(lastControllerRotation); //delta of current controller rotation to old controller rotation
+        lastControllerRotation = tf.rotation;
+
+        //message to be sent over ROs network
+        message = "";
+
+
         //Allows movement control with controllers if menu is disabled
+        if (Input.GetAxis(grip_label) > 0.5f) { //deadman switch being pressed
+            lastArmPosition = lastArmPosition + deltaPos; //new arm position
+            lastArmRotation = deltaRot * lastArmRotation; //new arm rotation
 
-        //if deadman switch held in, move to new pose
-        if (Input.GetAxis(grip_label) > 0.5f) {
-            //construct message to move to new pose for the robot end effector 
-            message = outPos.x + " " + outPos.y + " " + outPos.z + " " +
-            outQuat.x + " " + outQuat.y + " " + outQuat.z + " " + outQuat.w + " moveToEEPose";
-            //if touchpad is pressed (Crane game), incrementally move in new direction
+
+            if ((Vector3.Distance(new Vector3(0f, 0f, 0f), lastArmPosition)) < 1.5) { //make sure that the target stays inside a 1.5 meter sphere around the robot
+                //targetTransform.position = lastArmPosition + 0.09f * lastArmTF.up;
+                Vector3 customDisplacement = new Vector3(0.0f, 0.0f, 0.0f);
+                targetTransform.position = tf.position + customDisplacement;
+                
+            }
+            //targetTransform.rotation = tf.rotation;
+            //targetTransform.rotation = lastArmRotation;
+
+            //Vector3 outPos = UnityToRosPositionAxisConversion(lastArmTF.position + deltaPos) / scale;
+            Vector3 outPos = UnityToRosPositionAxisConversion(lastArmPosition) / scale;
+            //Quaternion outQuat = UnityToRosRotationAxisConversion(deltaRot * lastArmTF.rotation);
+            Quaternion outQuat = UnityToRosRotationAxisConversion(lastArmRotation);
+
+            message = outPos.x + " " + outPos.y + " " + outPos.z + " " + outQuat.x + " " + outQuat.y + " " + outQuat.z + " " + outQuat.w + " moveToEEPose";
         }
-
-        //If trigger pressed, open the gripper. Else, close gripper
         if (Input.GetAxis(trigger_label) > 0.5f) {
             message += " openGripper ";
         }
         else {
             message += " closeGripper ";
         }
+
+        Debug.Log("ADDING MESSAGE: " + message);
+		ghostCommands.Add(message);
 	}
 
-	//Convert 3D Unity position to ROS position 
     Vector3 UnityToRosPositionAxisConversion(Vector3 rosIn) {
         return new Vector3(-rosIn.x, -rosIn.z, rosIn.y);
     }
 
-    //Convert 4D Unity quaternion to ROS quaternion
     Quaternion UnityToRosRotationAxisConversion(Quaternion qIn) {
-
         Quaternion temp = (new Quaternion(qIn.x, qIn.z, -qIn.y, qIn.w)) * (new Quaternion(0, 1, 0, 0));
         return temp;
-
-        //return new Quaternion(-qIn.z, qIn.x, -qIn.w, -qIn.y);
-        //return new Quaternion(-qIn.z, qIn.w, -qIn.x, -qIn.y);
-        //return new Quaternion(-qIn.z, qIn.w, -qIn.x, -qIn.y);
-        //return new Quaternion(-qIn.z, qIn.x, qIn.w, qIn.y);
     }
 }
