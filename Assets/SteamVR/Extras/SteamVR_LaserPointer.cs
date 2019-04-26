@@ -65,14 +65,24 @@ public class SteamVR_LaserPointer : MonoBehaviour
 
     public virtual void OnPointerIn(PointerEventArgs e)
     {
-        if (PointerIn != null)
+        //e.target.GetComponent<Renderer>.material.SetColor();
+        //print("on pointer in from laserpointer");
+        
+        if (PointerIn != null){
             PointerIn(this, e);
+            //e.target.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+        }
+            
     }
 
     public virtual void OnPointerOut(PointerEventArgs e)
     {
-        if (PointerOut != null)
+        
+        if (PointerOut != null){
             PointerOut(this, e);
+            //e.target.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
+        }
+            
     }
 
 

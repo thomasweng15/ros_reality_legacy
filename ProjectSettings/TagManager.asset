@@ -6,6 +6,7 @@ TagManager:
   tags:
   - WebsocketTag
   - EndEffector
+  - StartButton
   layers:
   - Default
   - TransparentFX
