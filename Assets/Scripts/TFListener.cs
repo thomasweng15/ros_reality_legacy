@@ -18,11 +18,10 @@ public class TFListener : MonoBehaviour
 
 	void Update () 
 	{
+		//rostopic pub -1 /ros_unity std_msgs/String  'kinect2_link:[0.7933,0.0766,0.7655]^[0.70738,-0.70679,0.00137,0.00847]'
 		string message = wsc.messages[topic]; //get newest robot state data (from transform)
 		string[] tfElements = message.Split (';'); //split the message into each joint/link data pair
         foreach (string tfElement in tfElements) {
-            //Debug.Log(tfElement);
-            //continue;
 			string[] dataPair = tfElement.Split (':');
 			GameObject cur = GameObject.Find (dataPair [0] + "Pivot"); // replace with hashmap
 			if (cur != null) {
@@ -49,16 +48,17 @@ public class TFListener : MonoBehaviour
 
 				Quaternion curRot = new Quaternion (rot_x, rot_y, rot_z, rot_w);
 
+				//cur.transform.position = Vector3.Lerp(scale * RosToUnityPositionAxisConversion(curPos), cur.transform.position, 0.7f); //convert ROS coordinates to Unity coordinates and scale for position vector
+				//cur.transform.rotation = Quaternion.Slerp(RosToUnityQuaternionConversion(curRot), cur.transform.rotation, 0.7f); //convert ROS quaternions to Unity quarternions
+				cur.transform.position = scale * RosToUnityPositionAxisConversion(curPos); //convert ROS coordinates to Unity coordinates and scale for position vector
+				cur.transform.rotation = RosToUnityQuaternionConversion(curRot); //convert ROS quaternions to Unity quarternions
+                    
 				if (!cur.name.Contains("kinect")) { //rescaling direction of kinect point cloud
-                    //cur.transform.position = Vector3.Lerp(scale * RosToUnityPositionAxisConversion(curPos), cur.transform.position, 0.7f); //convert ROS coordinates to Unity coordinates and scale for position vector
-                    //cur.transform.rotation = Quaternion.Slerp(RosToUnityQuaternionConversion(curRot), cur.transform.rotation, 0.7f); //convert ROS quaternions to Unity quarternions
-                    cur.transform.position = scale * RosToUnityPositionAxisConversion(curPos); //convert ROS coordinates to Unity coordinates and scale for position vector
-                    cur.transform.rotation = RosToUnityQuaternionConversion(curRot); //convert ROS quaternions to Unity quarternions
-                    cur.transform.localScale = new Vector3(scale, scale, scale);
+					cur.transform.localScale = new Vector3(scale, scale, scale);
 				} else {
 					cur.transform.localScale = new Vector3(-scale, scale, -scale);
 				}
-				//cur.transform.position = RosToUnityPositionAxisConversion (curPos);
+				// cur.transform.position = RosToUnityPositionAxisConversion (curPos);
 				//cur.transform.rotation = RosToUnityQuaternionConversion (curRot);
 			}
 		}
