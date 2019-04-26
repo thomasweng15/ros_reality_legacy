@@ -18,21 +18,13 @@ public class ArmController : MonoBehaviour {
 
         // Create publisher to the Baxter's arm topic (uses Ein)
         wsc.Advertise("ein/" + "right" + "/forth_commands", "std_msgs/String");
+        // Asychrononously call sendControls every .1 seconds
+        InvokeRepeating("SendControls", .1f, .1f);
     }
-
-    void Update(){
-        if(playPressed){
-            // Asychrononously call sendControls every .1 seconds
-            InvokeRepeating("SendControls", .1f, .1f);
-        } else {
-            CancelInvoke("SendControls"); 
-        }
-    }
-
     void SendControls() {
         List<String> commands = electricFingers.GetComponent<copyItself>().ghostCommands;
 
-        while(commands.Count > 0){
+        while(commands.Count > 0 && playPressed){
             String message = commands[0];
             commands.RemoveAt(0);
             //Send the message to the websocket client (i.e: publish message onto ROS network)
