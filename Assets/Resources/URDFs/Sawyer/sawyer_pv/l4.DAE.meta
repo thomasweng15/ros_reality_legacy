@@ -61,7 +61,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Mtl1
-    second: {fileID: 2100000, guid: 88b1c05c84febee4ea09287a7ef30505, type: 2}
+    second: {fileID: 2100000, guid: 210e7b5781d18a746b7765a3c05fa215, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -76,12 +76,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Mtl4
-    second: {fileID: 2100000, guid: 0eb50939f7c53dd45a0c6498937eefce, type: 2}
+    second: {fileID: 2100000, guid: f9b95c5be7905d04985bd67c18b87f2d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Mtl5
-    second: {fileID: 2100000, guid: 210e7b5781d18a746b7765a3c05fa215, type: 2}
+    second: {fileID: 2100000, guid: 0eb50939f7c53dd45a0c6498937eefce, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -91,12 +91,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Mtl7
-    second: {fileID: 2100000, guid: 210e7b5781d18a746b7765a3c05fa215, type: 2}
+    second: {fileID: 2100000, guid: 0eb50939f7c53dd45a0c6498937eefce, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Mtl8
-    second: {fileID: 2100000, guid: 210e7b5781d18a746b7765a3c05fa215, type: 2}
+    second: {fileID: 2100000, guid: 0eb50939f7c53dd45a0c6498937eefce, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System; //This allows the IComparable Interface
+using System.Collections.Generic;
 
 //this is our modification of the original tragectory controller, b ut with the end effector snapping directyly to the controller on squeezing siude grips
 public class TrajectoryControllerNew : MonoBehaviour {
@@ -20,9 +22,20 @@ public class TrajectoryControllerNew : MonoBehaviour {
     Transform targetTransform;
     string message;
 
+    //the list of commands for the websocket
+    List<String> ghostCommands;
+
+    //nonodominant and dominant control objects need them for playPressed and drawPressed
+    GameObject nDom;
+    GameObject dom;
+    
+
     // Use this for initialization
     void Start() {
+        nDom = GameObject.Find("Controller (left)");
+        dom = GameObject.Find("Controller (right)");
 
+        ghostCommands = new List<string>();
         GameObject wso = GameObject.FindWithTag("WebsocketTag");
         wsc = wso.GetComponent<WebsocketClient>();
 
@@ -57,54 +70,74 @@ public class TrajectoryControllerNew : MonoBehaviour {
     }
 
     void sendMessage() { //send an ein message to arm
-        wsc.SendEinMessage(message, arm);
+        if(nDom.GetComponent<NondominantControls>().playPressed && ghostCommands.Count > 0){
+        // wsc.SendEinMessage(message, arm);
+
+        // if(nDom.GetComponent<NondominantControls>().playPressed){
+            string ghostMessage = ghostCommands[0];
+            ghostCommands.RemoveAt(0);
+            wsc.SendEinMessage(ghostMessage, arm);
+            // wsc.SendEinMessage(message, arm);
+            print("SENDING POSITION - LIST COUNT: " + ghostCommands.Count);
+            print("SENDING POSITION TO ROBOT");
+        } else if (ghostCommands.Count == 0){
+            nDom.GetComponent<NondominantControls>().playPressed = false;
+			print("PLAY SET TO NOT PRESSED");
+        }
     }
 
     void Update() {
-        scale = TFListener.scale;
+        if(dom.GetComponent<DominantControls>().drawPressed){
+            print("DRAW GHOSTS");
+            scale = TFListener.scale;
 
-        Vector3 deltaPos = tf.position - lastControllerPosition; //displacement of current controller position to old controller position
-        lastControllerPosition = tf.position;
+            Vector3 deltaPos = tf.position - lastControllerPosition; //displacement of current controller position to old controller position
+            lastControllerPosition = tf.position;
 
-        Quaternion deltaRot = tf.rotation * Quaternion.Inverse(lastControllerRotation); //delta of current controller rotation to old controller rotation
-        lastControllerRotation = tf.rotation;
+            Quaternion deltaRot = tf.rotation * Quaternion.Inverse(lastControllerRotation); //delta of current controller rotation to old controller rotation
+            lastControllerRotation = tf.rotation;
 
-        //message to be sent over ROs network
-        message = "";
-
-
-        //Allows movement control with controllers if menu is disabled //used to be deadman enabled         
-        //if (Input.GetAxis(grip_label) > 0.5f) { //deadman switch being pressed
-
-        lastArmPosition = lastArmPosition + deltaPos; //new arm position
-        lastArmRotation = deltaRot * lastArmRotation; //new arm rotation
+            //message to be sent over ROs network
+            message = "";
 
 
-        if ((Vector3.Distance(new Vector3(0f, 0f, 0f), lastArmPosition)) < 1.5) { //make sure that the target stays inside a 1.5 meter sphere around the robot
-            //targetTransform.position = lastArmPosition + 0.09f * lastArmTF.up;
-            Vector3 customDisplacement = new Vector3(0.0f, 0.0f, 0.0f);
-            targetTransform.position = tf.position + customDisplacement;
+            //Allows movement control with controllers if menu is disabled //used to be deadman enabled         
+            //if (Input.GetAxis(grip_label) > 0.5f) { //deadman switch being pressed
+        // if(dom.GetComponent<DominantControls>().drawPressed){
+
+            lastArmPosition = lastArmPosition + deltaPos; //new arm position
+            lastArmRotation = deltaRot * lastArmRotation; //new arm rotation
+
+            if ((Vector3.Distance(new Vector3(0f, 0f, 0f), lastArmPosition)) < 1.5) { //make sure that the target stays inside a 1.5 meter sphere around the robot
+                // targetTransform.position = lastArmPosition + 0.09f * lastArmTF.up;
+                Vector3 customDisplacement = new Vector3(0.0f, 0.0f, 0.0f);
+                targetTransform.position = tf.position + customDisplacement;
             
-        }
-        //targetTransform.rotation = tf.rotation;
-        //targetTransform.rotation = lastArmRotation;
+            }
+            targetTransform.rotation = tf.rotation;
+            // targetTransform.rotation = lastArmRotation;
 
-        //Vector3 outPos = UnityToRosPositionAxisConversion(lastArmTF.position + deltaPos) / scale;
-        Vector3 outPos = UnityToRosPositionAxisConversion(lastArmPosition) / scale;
-        //Quaternion outQuat = UnityToRosRotationAxisConversion(deltaRot * lastArmTF.rotation);
-        Quaternion outQuat = UnityToRosRotationAxisConversion(lastArmRotation);
+            //Vector3 outPos = UnityToRosPositionAxisConversion(lastArmTF.position + deltaPos) / scale;
+            Vector3 outPos = UnityToRosPositionAxisConversion(lastArmPosition) / scale;
+            //Quaternion outQuat = UnityToRosRotationAxisConversion(deltaRot * lastArmTF.rotation);
+            Quaternion outQuat = UnityToRosRotationAxisConversion(lastArmRotation);
 
-        message = outPos.x + " " + outPos.y + " " + outPos.z + " " + outQuat.x + " " + outQuat.y + " " + outQuat.z + " " + outQuat.w + " moveToEEPose";
-        if (Input.GetAxis(trigger_label) > 0.5f) {
-            message += " openGripper ";
-        }
-        else {
-            message += " closeGripper ";
-        }
+            message = outPos.x + " " + outPos.y + " " + outPos.z + " " + outQuat.x + " " + outQuat.y + " " + outQuat.z + " " + outQuat.w + " moveToEEPose";
+            if (Input.GetAxis(trigger_label) > 0.5f) {
+                message += " openGripper ";
+            }
+            else {
+                message += " closeGripper ";
+            }
 
-        Debug.Log(message);
+            Debug.Log(message);
+        
+            ghostCommands.Add(message);
+        }
         //Debug.Log(lastArmPosition);
-    }
+
+        print("PRINTING LIST COUNT: " + ghostCommands.Count);
+    } 
 
     Vector3 UnityToRosPositionAxisConversion(Vector3 rosIn) {
         return new Vector3(-rosIn.x, -rosIn.z, rosIn.y);

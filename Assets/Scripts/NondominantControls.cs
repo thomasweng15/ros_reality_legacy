@@ -8,6 +8,8 @@ public class NondominantControls : MonoBehaviour {
 	private SteamVR_Controller.Device device;
 	private SteamVR_TrackedController controller;
 
+	internal bool playPressed;
+
 	public GameObject[] buttonArr;
 
 	//private int buttonHovered = -1; //the index value of the button currently 'hover' selected, if nothing then value is -1
@@ -15,6 +17,8 @@ public class NondominantControls : MonoBehaviour {
 	void Start () {
 		objTracked = GetComponent<SteamVR_TrackedObject>();
 		controller = GetComponent<SteamVR_TrackedController>();
+
+		playPressed = false;
 	}
 	void Update () {
 		device = SteamVR_Controller.Input((int)objTracked.index);
@@ -28,7 +32,9 @@ public class NondominantControls : MonoBehaviour {
 			switch (optionSelected){
 				case 0:
 					print("button pressed " + 0);
-
+					//play
+					playPressed = true;
+					print("PLAY PRESSED");
 					break;
 				case 1:
 					print("button pressed " + 1);
