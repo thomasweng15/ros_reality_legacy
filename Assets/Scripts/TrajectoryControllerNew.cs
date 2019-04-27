@@ -73,28 +73,28 @@ public class TrajectoryControllerNew : MonoBehaviour {
         message = "";
 
 
-        //Allows movement control with controllers if menu is disabled
-        if (Input.GetAxis(grip_label) > 0.5f) { //deadman switch being pressed
-            lastArmPosition = lastArmPosition + deltaPos; //new arm position
-            lastArmRotation = deltaRot * lastArmRotation; //new arm rotation
+        //Allows movement control with controllers if menu is disabled //used to be deadman enabled         
+        //if (Input.GetAxis(grip_label) > 0.5f) { //deadman switch being pressed
+
+        lastArmPosition = lastArmPosition + deltaPos; //new arm position
+        lastArmRotation = deltaRot * lastArmRotation; //new arm rotation
 
 
-            if ((Vector3.Distance(new Vector3(0f, 0f, 0f), lastArmPosition)) < 1.5) { //make sure that the target stays inside a 1.5 meter sphere around the robot
-                //targetTransform.position = lastArmPosition + 0.09f * lastArmTF.up;
-                Vector3 customDisplacement = new Vector3(0.0f, 0.0f, 0.0f);
-                targetTransform.position = tf.position + customDisplacement;
-                
-            }
-            //targetTransform.rotation = tf.rotation;
-            //targetTransform.rotation = lastArmRotation;
-
-            //Vector3 outPos = UnityToRosPositionAxisConversion(lastArmTF.position + deltaPos) / scale;
-            Vector3 outPos = UnityToRosPositionAxisConversion(lastArmPosition) / scale;
-            //Quaternion outQuat = UnityToRosRotationAxisConversion(deltaRot * lastArmTF.rotation);
-            Quaternion outQuat = UnityToRosRotationAxisConversion(lastArmRotation);
-
-            message = outPos.x + " " + outPos.y + " " + outPos.z + " " + outQuat.x + " " + outQuat.y + " " + outQuat.z + " " + outQuat.w + " moveToEEPose";
+        if ((Vector3.Distance(new Vector3(0f, 0f, 0f), lastArmPosition)) < 1.5) { //make sure that the target stays inside a 1.5 meter sphere around the robot
+            //targetTransform.position = lastArmPosition + 0.09f * lastArmTF.up;
+            Vector3 customDisplacement = new Vector3(0.0f, 0.0f, 0.0f);
+            targetTransform.position = tf.position + customDisplacement;
+            
         }
+        //targetTransform.rotation = tf.rotation;
+        //targetTransform.rotation = lastArmRotation;
+
+        //Vector3 outPos = UnityToRosPositionAxisConversion(lastArmTF.position + deltaPos) / scale;
+        Vector3 outPos = UnityToRosPositionAxisConversion(lastArmPosition) / scale;
+        //Quaternion outQuat = UnityToRosRotationAxisConversion(deltaRot * lastArmTF.rotation);
+        Quaternion outQuat = UnityToRosRotationAxisConversion(lastArmRotation);
+
+        message = outPos.x + " " + outPos.y + " " + outPos.z + " " + outQuat.x + " " + outQuat.y + " " + outQuat.z + " " + outQuat.w + " moveToEEPose";
         if (Input.GetAxis(trigger_label) > 0.5f) {
             message += " openGripper ";
         }

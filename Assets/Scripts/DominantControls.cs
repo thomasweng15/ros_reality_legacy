@@ -22,6 +22,10 @@ public class DominantControls : MonoBehaviour {
 		if(controller.padPressed){
 			//get the grandchild electric fingers, because it has the copyItselfScript
 			electricFingers.GetComponent<copyItself>().drawGhost();
+		} 
+
+		if (Input.GetAxis("Right Trigger") > 0.1f){
+			//need to animate the gripper to close also need to figure out ghost and command
 		}
 	}
 }
