@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: ae793e579c6f6b8449d32c2cea9097c8
-timeCreated: 1525113030
-licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -13,9 +11,14 @@ ModelImporter:
     2300000: body_group1
     3300000: body_group1
     4300000: body_group1
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: body_group1Mat
+    second: {fileID: 2100000, guid: f02e274833467af4293e6c84b361641e, type: 2}
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1

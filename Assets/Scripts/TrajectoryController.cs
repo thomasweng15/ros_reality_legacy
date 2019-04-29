@@ -79,8 +79,8 @@ public class TrajectoryController : MonoBehaviour {
             lastArmRotation = deltaRot * lastArmRotation; //new arm rotation
 
             if ((Vector3.Distance(new Vector3(0f, 0f, 0f), lastArmPosition)) < 1.5) { //make sure that the target stays inside a 1.5 meter sphere around the robot
-                targetTransform.position = lastArmPosition + 0.09f * lastArmTF.up;
-                //targetTransform.position = lastArmPosition;
+                // targetTransform.position = lastArmPosition + 0.09f * lastArmTF.up;
+                targetTransform.position = lastArmPosition;
             }
             targetTransform.rotation = lastArmRotation;
 

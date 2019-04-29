@@ -44,6 +44,26 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Mtl1
     second: {fileID: 2100000, guid: f3f55ee930da8f14daaaa3f9a9529d51, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mtl2
+    second: {fileID: 2100000, guid: 210e7b5781d18a746b7765a3c05fa215, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mtl3
+    second: {fileID: 2100000, guid: 210e7b5781d18a746b7765a3c05fa215, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mtl4
+    second: {fileID: 2100000, guid: 210e7b5781d18a746b7765a3c05fa215, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mtl5
+    second: {fileID: 2100000, guid: 210e7b5781d18a746b7765a3c05fa215, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

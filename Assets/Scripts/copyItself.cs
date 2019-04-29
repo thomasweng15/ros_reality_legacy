@@ -35,7 +35,10 @@ public class copyItself : MonoBehaviour {
         
 	}
 	internal void drawGhost(){
-        Instantiate(prefab, this.transform.position, this.transform.rotation);
+        if(Time.frameCount % 6 == 0){
+            Instantiate(prefab, this.transform.position, this.transform.rotation);
+        }
+
 	}
 
 }

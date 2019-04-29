@@ -28,7 +28,6 @@ public class TrajectoryControllerNew : MonoBehaviour {
     //nonodominant and dominant control objects need them for playPressed and drawPressed
     GameObject nDom;
     GameObject dom;
-    
 
     // Use this for initialization
     void Start() {
@@ -46,76 +45,66 @@ public class TrajectoryControllerNew : MonoBehaviour {
         //last positions/rotation of the controller (calculate relative displacement of controller at each update)
         lastControllerPosition = tf.position;
         lastControllerRotation = tf.rotation;
-        Invoke("FindArm", .1f); //update position of lastArm position and rotation
-        InvokeRepeating("sendMessage", 1.2f, .1f); //send message to move arm by displacement of current controller position/rotation with previous position/rotation
         targetTransform = targetModel.GetComponent<Transform>();
+        Invoke("FindArm", .5f); //update position of lastArm position and rotation
+        InvokeRepeating("sendMessage", 1.2f, .1f); //send message to move arm by displacement of current controller position/rotation with previous position/rotation
 
-        // if (arm == "left") {
-        //     grip_label = "Left Grip";
-        //     trigger_label = "Left Trigger";
-        // }
         if (arm == "right") {
             grip_label = "Right Grip";
             trigger_label = "Right Trigger";
         }
-        else
+        else {
             Debug.LogError("arm variable is not set correctly");
+        }
     }
 
     void FindArm() { //update the lastArm with the current position/rotation of the controller
-        lastArmTF = GameObject.Find(arm + "_gripper_base").GetComponent<Transform>();
+        lastArmTF = GameObject.Find(arm + "_electric_gripper_basePivot").GetComponent<Transform>();
         lastArmPosition = lastArmTF.position;
         lastArmRotation = lastArmTF.rotation;
-        //Debug.Log(lastArmPosition);
+        targetTransform.position = lastArmPosition;
+        targetTransform.rotation = lastArmRotation;
     }
 
     void sendMessage() { //send an ein message to arm
         if(nDom.GetComponent<NondominantControls>().playPressed && ghostCommands.Count > 0){
-        // wsc.SendEinMessage(message, arm);
-
-        // if(nDom.GetComponent<NondominantControls>().playPressed){
             string ghostMessage = ghostCommands[0];
             ghostCommands.RemoveAt(0);
             wsc.SendEinMessage(ghostMessage, arm);
-            // wsc.SendEinMessage(message, arm);
-            print("SENDING POSITION - LIST COUNT: " + ghostCommands.Count);
-            print("SENDING POSITION TO ROBOT");
+            // print("SENDING POSITION TO ROBOT");
         } else if (ghostCommands.Count == 0){
             nDom.GetComponent<NondominantControls>().playPressed = false;
-			print("PLAY SET TO NOT PRESSED");
+			// print("PLAY SET TO NOT PRESSED");
         }
     }
 
     void Update() {
-        if(dom.GetComponent<DominantControls>().drawPressed){
-            print("DRAW GHOSTS");
-            scale = TFListener.scale;
+        return;
+        scale = TFListener.scale;
 
-            Vector3 deltaPos = tf.position - lastControllerPosition; //displacement of current controller position to old controller position
-            lastControllerPosition = tf.position;
+        Vector3 deltaPos = tf.position - lastControllerPosition; //displacement of current controller position to old controller position
+        lastControllerPosition = tf.position;
 
-            Quaternion deltaRot = tf.rotation * Quaternion.Inverse(lastControllerRotation); //delta of current controller rotation to old controller rotation
-            lastControllerRotation = tf.rotation;
+        Quaternion deltaRot = tf.rotation * Quaternion.Inverse(lastControllerRotation); //delta of current controller rotation to old controller rotation
+        lastControllerRotation = tf.rotation;
 
-            //message to be sent over ROs network
-            message = "";
+        //message to be sent over ROs network
+        message = "";
 
-
-            //Allows movement control with controllers if menu is disabled //used to be deadman enabled         
-            //if (Input.GetAxis(grip_label) > 0.5f) { //deadman switch being pressed
-        // if(dom.GetComponent<DominantControls>().drawPressed){
+        //Allows movement control with controllers if menu is disabled //used to be deadman enabled         
+        // if (Input.GetAxis(grip_label) > 0.5f) { //deadman switch being pressed
+        if (dom.GetComponent<DominantControls>().drawPressed) {
 
             lastArmPosition = lastArmPosition + deltaPos; //new arm position
             lastArmRotation = deltaRot * lastArmRotation; //new arm rotation
 
             if ((Vector3.Distance(new Vector3(0f, 0f, 0f), lastArmPosition)) < 1.5) { //make sure that the target stays inside a 1.5 meter sphere around the robot
-                // targetTransform.position = lastArmPosition + 0.09f * lastArmTF.up;
-                Vector3 customDisplacement = new Vector3(0.0f, 0.0f, 0.0f);
-                targetTransform.position = tf.position + customDisplacement;
-            
+                targetTransform.position = lastArmPosition + 0.09f * lastArmTF.up;
+                // Vector3 customDisplacement = new Vector3(0.0f, 0.0f, 0.0f);
+                // targetTransform.position = tf.position + customDisplacement;
             }
-            targetTransform.rotation = tf.rotation;
-            // targetTransform.rotation = lastArmRotation;
+            // targetTransform.rotation = tf.rotation;
+            targetTransform.rotation = lastArmRotation;
 
             //Vector3 outPos = UnityToRosPositionAxisConversion(lastArmTF.position + deltaPos) / scale;
             Vector3 outPos = UnityToRosPositionAxisConversion(lastArmPosition) / scale;
@@ -130,13 +119,15 @@ public class TrajectoryControllerNew : MonoBehaviour {
                 message += " closeGripper ";
             }
 
-            Debug.Log(message);
-        
-            ghostCommands.Add(message);
+            if(Time.frameCount % 6 == 0){
+                ghostCommands.Add(message);
+                Debug.Log(message);
+            }
+
         }
         //Debug.Log(lastArmPosition);
 
-        print("PRINTING LIST COUNT: " + ghostCommands.Count);
+        // print("PRINTING LIST COUNT: " + ghostCommands.Count);
     } 
 
     Vector3 UnityToRosPositionAxisConversion(Vector3 rosIn) {
