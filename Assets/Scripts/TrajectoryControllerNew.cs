@@ -46,7 +46,7 @@ public class TrajectoryControllerNew : MonoBehaviour {
         lastControllerPosition = tf.position;
         lastControllerRotation = tf.rotation;
         targetTransform = targetModel.GetComponent<Transform>();
-        Invoke("FindArm", .5f); //update position of lastArm position and rotation
+        Invoke("FindArm", 2f); //update position of lastArm position and rotation
         InvokeRepeating("sendMessage", 1.2f, .1f); //send message to move arm by displacement of current controller position/rotation with previous position/rotation
 
         if (arm == "right") {
@@ -71,7 +71,7 @@ public class TrajectoryControllerNew : MonoBehaviour {
             string ghostMessage = ghostCommands[0];
             ghostCommands.RemoveAt(0);
             wsc.SendEinMessage(ghostMessage, arm);
-            // print("SENDING POSITION TO ROBOT");
+            print("SENDING POSITION TO ROBOT" + ghostMessage);
         } else if (ghostCommands.Count == 0){
             nDom.GetComponent<NondominantControls>().playPressed = false;
 			// print("PLAY SET TO NOT PRESSED");
@@ -79,7 +79,6 @@ public class TrajectoryControllerNew : MonoBehaviour {
     }
 
     void Update() {
-        return;
         scale = TFListener.scale;
 
         Vector3 deltaPos = tf.position - lastControllerPosition; //displacement of current controller position to old controller position
@@ -92,23 +91,21 @@ public class TrajectoryControllerNew : MonoBehaviour {
         message = "";
 
         //Allows movement control with controllers if menu is disabled //used to be deadman enabled         
-        // if (Input.GetAxis(grip_label) > 0.5f) { //deadman switch being pressed
         if (dom.GetComponent<DominantControls>().drawPressed) {
 
             lastArmPosition = lastArmPosition + deltaPos; //new arm position
             lastArmRotation = deltaRot * lastArmRotation; //new arm rotation
 
             if ((Vector3.Distance(new Vector3(0f, 0f, 0f), lastArmPosition)) < 1.5) { //make sure that the target stays inside a 1.5 meter sphere around the robot
-                targetTransform.position = lastArmPosition + 0.09f * lastArmTF.up;
+                // targetTransform.position = lastArmPosition + 0.09f * lastArmTF.up;
+                targetTransform.position = lastArmPosition;
                 // Vector3 customDisplacement = new Vector3(0.0f, 0.0f, 0.0f);
                 // targetTransform.position = tf.position + customDisplacement;
             }
             // targetTransform.rotation = tf.rotation;
             targetTransform.rotation = lastArmRotation;
 
-            //Vector3 outPos = UnityToRosPositionAxisConversion(lastArmTF.position + deltaPos) / scale;
             Vector3 outPos = UnityToRosPositionAxisConversion(lastArmPosition) / scale;
-            //Quaternion outQuat = UnityToRosRotationAxisConversion(deltaRot * lastArmTF.rotation);
             Quaternion outQuat = UnityToRosRotationAxisConversion(lastArmRotation);
 
             message = outPos.x + " " + outPos.y + " " + outPos.z + " " + outQuat.x + " " + outQuat.y + " " + outQuat.z + " " + outQuat.w + " moveToEEPose";
@@ -135,8 +132,15 @@ public class TrajectoryControllerNew : MonoBehaviour {
     }
 
     Quaternion UnityToRosRotationAxisConversion(Quaternion qIn) {
-        Quaternion temp = (new Quaternion(qIn.x, qIn.z, -qIn.y, qIn.w)) * (new Quaternion(0, 1, 0, 0));
-        return temp;
+        // Quaternion temp = (new Quaternion(qIn.x, qIn.z, -qIn.y, qIn.w)) * (new Quaternion(0, 1, 0, 0));
+        // return temp;
+
+        return new Quaternion(qIn.x, qIn.z, -qIn.y, qIn.w);
+
+        // ROS to Unity
+        // x y z w
+        // x -z y w
+        // return new Quaternion (rosIn.x, -rosIn.z, rosIn.y, rosIn.w);
     }
 
 }
