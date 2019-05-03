@@ -54,6 +54,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4450521203866222}
   - component: {fileID: 95821936931779984}
+  - component: {fileID: 114120285534809196}
+  - component: {fileID: 135837757085651370}
   m_Layer: 0
   m_Name: electric_gripper_w_fingers 1
   m_TagString: Untagged
@@ -275,6 +277,29 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114120285534809196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1437829814633440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35bd712530a37b545affc968932af2aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &135837757085651370
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1437829814633440}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.01
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136659851776643182
 CapsuleCollider:
   m_ObjectHideFlags: 1

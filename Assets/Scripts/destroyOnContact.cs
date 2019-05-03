@@ -13,8 +13,9 @@ public class destroyOnContact : MonoBehaviour {
 	void Update () {
 		
 	}
-	private void OnTriggerEnter(Collider other)
+	void OnTriggerEnter()
     {
+		Debug.Log("yo destroy ghost");
         Destroy(gameObject);
     }
 }
