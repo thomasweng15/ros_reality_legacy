@@ -110,10 +110,10 @@ public class TrajectoryControllerNew : MonoBehaviour {
 
             message = outPos.x + " " + outPos.y + " " + outPos.z + " " + outQuat.x + " " + outQuat.y + " " + outQuat.z + " " + outQuat.w + " moveToEEPose";
             if (Input.GetAxis(trigger_label) > 0.5f) {
-                message += " openGripper ";
+                message += " closeGripper ";
             }
             else {
-                message += " closeGripper ";
+                message += " openGripper ";
             }
 
             if(Time.frameCount % 6 == 0){

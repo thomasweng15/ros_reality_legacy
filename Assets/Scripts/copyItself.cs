@@ -6,14 +6,9 @@ using UnityEngine;
 
 public class copyItself : MonoBehaviour {
 
-	 // string of which arm to control. Valid values are "left" and "right"
-    public string arm;
-    private string grip_label;
-    private string trigger_label;
-	 TFListener TFListener;
-    //scale represents how resized the virtual robot is
-    float scale;
-	public Transform prefab;
+	public Transform prefabOpen;
+
+    public Transform prefabClosed;
     
 	void Start()
     {
@@ -36,7 +31,12 @@ public class copyItself : MonoBehaviour {
 	}
 	internal void drawGhost(){
         if(Time.frameCount % 6 == 0){
-            Instantiate(prefab, this.transform.position, this.transform.rotation);
+            if (Input.GetAxis("Right Trigger") > 0.5f) {
+                Instantiate(prefabClosed, this.transform.position, this.transform.rotation);
+            }else{
+                Instantiate(prefabOpen, this.transform.position, this.transform.rotation);
+            }
+
         }
 
 	}
