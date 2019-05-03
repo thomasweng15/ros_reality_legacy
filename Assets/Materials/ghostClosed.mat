@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ghostt 6
+  m_Name: ghostClosed
   m_Shader: {fileID: 4800000, guid: b7e6239a70aea694ba3b2c5057d4a20f, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -73,7 +73,7 @@ Material:
     - _Metallic: 0.884
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Outline: 0.03
+    - _Outline: 0.18
     - _Parallax: 0.02
     - _RimIn: 13.59
     - _RimPow: 1
@@ -87,5 +87,5 @@ Material:
     - _Asymmetry: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 0.83519274, g: 1, b: 0.08088237, a: 1}
     - _RimColor: {r: 0, g: 1, b: 0.95862055, a: 1}

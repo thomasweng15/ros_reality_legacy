@@ -10,7 +10,7 @@ public class DepthRosGeometryView : MonoBehaviour {
     string depthTopic;
     string colorTopic;
     int framerate = 100;
-    public string compression = "none"; //"png" is the other option, haven't tried it yet though
+    public string compression = "none"; 
     string depthMessage;
     string colorMessage;
 
@@ -32,7 +32,7 @@ public class DepthRosGeometryView : MonoBehaviour {
         wsc = GameObject.Find("WebsocketClient").GetComponent<WebsocketClient>();
         depthTopic = "camera/depth_registered/image";
         colorTopic = "camera/rgb/image_raw";
-        wsc.Subscribe(depthTopic, "sensor_msgs/Image", "jpeg", framerate);
+        wsc.Subscribe(depthTopic, "sensor_msgs/Image", compression, framerate);
         wsc.Subscribe(colorTopic, "sensor_msgs/Image", compression, framerate);
         InvokeRepeating("UpdateTexture", 0.1f, 0.1f);
     }
@@ -71,6 +71,6 @@ public class DepthRosGeometryView : MonoBehaviour {
         m = Matrix4x4.TRS(this.transform.position, this.transform.rotation, this.transform.localScale);
         Material.SetMatrix("transformationMatrix", m);
 
-        Graphics.DrawProcedural(MeshTopology.Triangles, width * height*3, 1);
+        Graphics.DrawProcedural(MeshTopology.Points, width * height, 1);
     }
 }

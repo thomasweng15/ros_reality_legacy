@@ -19,7 +19,7 @@ Shader "Custom/DepthGeometryPointSprites"
 			CGPROGRAM
 				#pragma target 5.0
 				#include "UnityCG.cginc" 
-				#include "KinectCommon.cginc"
+				#include "PrimesenseCommon.cginc"
 				#pragma vertex VS_Empty
 				#pragma geometry GS_Main			
 				#pragma fragment FS_Passthrough				
@@ -37,18 +37,18 @@ Shader "Custom/DepthGeometryPointSprites"
 				
 				    int3 textureCoordinates = int3(primID % DepthWidth, primID / DepthWidth, 0);				
 					int3 colorCoordinates = int3(textureCoordinates.x, textureCoordinates.y, 0);					
-					//float depth = DepthFromPacked4444(_MainTex.Load(textureCoordinates));
+					// float depth = DepthFromPacked4444(_MainTex.Load(textureCoordinates));
 					//float raw_depth = _MainTex.Load(textureCoordinates);
 					// don't output quads for pixels with invalid depth data
 					float depth = _MainTex.Load(textureCoordinates);				
 					// color based on depth
 			
 					output.color.rgb = _ColorTex.Load(colorCoordinates);
-					output.color.a = 1.0;					
-					
+					output.color.a = 1.0;
+
 					// convert to meters and scale to world				
-					//float worldScaledDepth = depth;// * MillimetersToMetersScale * _WorldScale;
-					//float worldScaledDepth = 1.0 / (4500 * depth * -0.0030711016 + 3.3309495161);
+					// float worldScaledDepth = depth;// * MillimetersToMetersScale * _WorldScale;
+					// float worldScaledDepth = 1.0 / (4500 * depth * -0.0030711016 + 3.3309495161);
 					float worldScaledDepth = depth * 65;
 //					if (depth < MinDepthMM || depth > MaxDepthMM)
 //					{
