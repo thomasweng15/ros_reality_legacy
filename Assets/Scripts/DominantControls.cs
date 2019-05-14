@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class DominantControls : MonoBehaviour {
 
-
+	/* The following three all refer to the vive controller, and unfortunately must all be present to refer to control inputs */
 	private SteamVR_TrackedObject objTracked;
 	private SteamVR_Controller.Device device;
 	private SteamVR_TrackedController controller;
 
-	private GameObject electricFingers;
+	private GameObject electricFingers; // this is the name we gave the ghost end effector...
 
-	internal bool drawPressed;
+	internal bool drawPressed; // drawPressed is 'internal' in order for other scripts to reference it (but the unity GUI doesn't have access)
 
 	void Start () {
 		objTracked = GetComponent<SteamVR_TrackedObject>();
 		controller = GetComponent<SteamVR_TrackedController>();
-		electricFingers = GameObject.FindWithTag("EndEffector");
+		electricFingers = GameObject.FindWithTag("EndEffector"); //you'll notice that the ghost end effector obj in the GUI is tagged with this 
 
 		drawPressed = false;
 	}
@@ -25,7 +25,7 @@ public class DominantControls : MonoBehaviour {
 
 		if(controller.padPressed){
 			drawPressed = true;
-			//get the grandchild electric fingers, because it has the copyItselfScript
+			// get the electric fingers has the copyItselfScript
 			electricFingers.GetComponent<copyItself>().drawGhost();
 			print("DRAW PRESSED");
 		}else{
@@ -34,7 +34,7 @@ public class DominantControls : MonoBehaviour {
 		} 
 
 		if (Input.GetAxis("Right Trigger") > 0.1f){
-			//need to animate the gripper to close also need to figure out ghost and command
+			// need to animate the robot's gripper to close also need to figure out ghost and command
 		}
 	}
 }

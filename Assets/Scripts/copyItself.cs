@@ -29,14 +29,15 @@ public class copyItself : MonoBehaviour {
 	void Update () {
         
 	}
+
+    // drawGhost is currently being called on by the dominant controls
 	internal void drawGhost(){
         if(Time.frameCount % 6 == 0){
             if (Input.GetAxis("Right Trigger") > 0.5f) {
                 Instantiate(prefabClosed, this.transform.position, this.transform.rotation);
-            }else{
+            } else {
                 Instantiate(prefabOpen, this.transform.position, this.transform.rotation);
             }
-
         }
 
 	}

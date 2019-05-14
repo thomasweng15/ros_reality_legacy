@@ -1,21 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/* This is to be attached to  */
 public class destroyOnContact : MonoBehaviour {
 
-	// Use this for initialization
 	void Start () {
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}
 	void OnTriggerEnter()
     {
-		Debug.Log("yo destroy ghost");
+		//Debug.Log("yo destroy ghost");
         Destroy(gameObject);
     }
 }
